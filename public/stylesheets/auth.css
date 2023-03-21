@@ -35,7 +35,7 @@
 .box {
   background-color: white;
   padding: 30px;
-  border: 3px solid #198754;
+  border: 3px solid #2980b9;
   border-radius: 20px;
 }
 .choose-form {
@@ -45,7 +45,7 @@
 .choose-form .active {
   background-color: white;
   color: black !important;
-  border: 2px solid #198754;
+  border: 2px solid #2980b9;
   border-radius: 20px;
   padding: 20px;
 }

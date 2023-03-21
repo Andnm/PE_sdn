@@ -309,6 +309,9 @@ class playerController {
     let clubFilter = [];
     let positionFilter = [];
     let captainFilter = [];
+    let perPage = 5;
+    let page = req.params.page || 1;
+
     for (let el of filterArray) {
       switch (el.name) {
         case "nation":
@@ -344,10 +347,16 @@ class playerController {
     }
 
     Player.find(query)
+      .skip(perPage * page - perPage)
+      .limit(perPage)
       .populate("nation")
       .then((players) => {
-        res.send({
-          players: players,
+        Player.countDocuments((err, count) => {
+          res.send({
+            players: players,
+            currentPage: page,
+            pages: Math.ceil(count / perPage),
+          });
         });
       })
       .catch((err) => {

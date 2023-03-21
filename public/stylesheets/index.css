@@ -12,7 +12,7 @@ nav{
 .nav-link.active{
     text-decoration: 2px underline;
         text-decoration-style: solid;
-        text-decoration-color: #198754;
+        text-decoration-color: #2980b9;
 }
 .bg-img {
     height: 100vh;
@@ -23,7 +23,7 @@ nav{
 .bg-img.overlay::before{
     content: "";
     position: absolute;
-    background: rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.5); */
     top: 0;
     left: 0;
     right: 0;

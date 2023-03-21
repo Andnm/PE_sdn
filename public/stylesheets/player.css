@@ -15,7 +15,7 @@ nav {
 .nav-link.active {
     text-decoration: 2px underline;
     text-decoration-style: solid;
-    text-decoration-color: #198754;
+    text-decoration-color: #2980b9;
 }
 
 .bg-img {
@@ -72,7 +72,7 @@ table thead{
     background-color: white;
     padding: 30px;
     margin-top: 50px;
-    border: 3px solid #198754;
+    border: 3px solid #2980b9;
     border-radius: 20px;
 }
 .errMsg{
@@ -84,7 +84,7 @@ table thead{
 }
 .detail-btn:hover{
     width: 100%;
-    background-color: #198754;
+    background-color: #2980b9;
 }
 .detail-btn:hover a{
     color: white;
@@ -102,7 +102,7 @@ table thead{
 
 .box-view{
     background-color: white;
-    border: 2px solid #198754;
+    border: 2px solid #2980b9;
     border-radius: 20px;
     padding: 30px;
     max-height: 500px;
@@ -156,7 +156,7 @@ table thead{
 #searchResults{
     position: absolute;
     background-color: white;
-    border: #198754 2px solid;
+    border: #2980b9 2px solid;
     max-width: 500px;
     min-width: 190px;
     border-radius: 5px;
@@ -186,7 +186,7 @@ table thead{
 #searchResults .results a:hover {
     margin-bottom: 0px !important;
     text-decoration: none;
-    color: #198754;
+    color: #2980b9;
 }
 
 .content-header{
@@ -235,4 +235,14 @@ table thead{
   .navbar-brand img {
     max-width: 100px;
     max-height: 100px;
+  }
+
+  .mx-auto {
+    position: relative;
+  }
+
+  .pagination {
+    position: fixed;
+    bottom: 0;
+    left: 550px;
   }
