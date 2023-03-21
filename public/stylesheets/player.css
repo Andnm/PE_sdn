@@ -227,3 +227,12 @@ table thead{
 .dp-block{
     display: block;
 }
+
+.navbar-menu {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .navbar-brand img {
+    max-width: 100px;
+    max-height: 100px;
+  }

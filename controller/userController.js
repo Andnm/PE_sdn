@@ -12,6 +12,7 @@ class userController {
   index(req, res, next) {
     res.render("register", {
       title: "Register Page",
+      isLogin: false,
     });
   }
   async register(req, res, next) {
@@ -38,6 +39,7 @@ class userController {
         yob: yob,
         username: username,
         password: password,
+        isLogin: false,
       });
     } else {
       await User.findOne({ username: username }).then((user) => {
@@ -50,6 +52,7 @@ class userController {
             yob: yob,
             username: username,
             password: password,
+            isLogin: false,
           });
         } else {
           const newUser = new User({
@@ -77,6 +80,7 @@ class userController {
   login(req, res, next) {
     res.render("login", {
       title: "Login Page",
+      isLogin: false,
     });
   }
   signIn(req, res, next) {
@@ -124,6 +128,7 @@ class userController {
         title: "Account Page",
         user: user,
         showListUser: showListUser,
+        isLogin: true,
       });
     });
   }
@@ -134,6 +139,7 @@ class userController {
       res.render("editAccount", {
         title: "Edit Account",
         user: user,
+        isLogin: true,
       });
     });
   }
@@ -177,6 +183,7 @@ class userController {
         res.render("listUser", {
           title: "List User",
           user: user,
+          isLogin: true,
         });
       });
     } else {
@@ -191,6 +198,7 @@ class userController {
       User.find({ _id: userID }).then((user) => {
         res.render("changePassword", {
           title: "Change Passport Page",
+          isLogin: true,
         });
       });
     }

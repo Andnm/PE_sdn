@@ -4,7 +4,19 @@ const { ensureAuthenticated } = require("../config/auth");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
+  var token = req.cookies.accessToken;
+
+  if (token) {
+    res.render("index", {
+      title: "Express",
+      isLogin: true,
+    });
+  } else {
+    res.render("index", {
+      title: "Express",
+      isLogin: false,
+    });
+  }
 });
 
 module.exports = router;

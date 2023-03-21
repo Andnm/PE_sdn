@@ -13,34 +13,68 @@
 </head>
 
 <body>
-    <%- include('include/navbar.ejs')%>
-        <div class="bg-img overlay"
-            style="background-image: url('https://themewagon.github.io/soccer/images/bg_3.jpg');">
-            <div class="container">
-                <div class="row">
-                    <div class="alert-group">
-                        <% if(success_msg!='' ){%>
-                            <div class="alert alert-success alert-dismissible" role="alert">
-                                <%= success_msg %>
-                            </div>
-                            <% } %>
-                                <% if(error_msg!='' ){%>
-                                    <div class="alert alert-warning alert-dismissible" role="alert">
-                                        <%= error_msg %>
-                                    </div>
-                                    <% } %>
-                                        <% if(error!='' ){%>
-                                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                                <%= error %>
-                                            </div>
-                                            <% } %>
-                    </div>
-                    <div class="col-lg-5 ml-auto">
-                        <h1 class="text-white">World Cup Event</h1>
-                    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container navbar-menu">
+            <a class="navbar-brand" href="/"><img
+                src="https://storage.googleapis.com/www-static-academic-influence/school-logos/faculty-economics-finance-administration"
+                alt="Navbar"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin: 0 auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/players/1">Players</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/nations/1">Nations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth/account">Users</a>
+                    </li>
+                </ul>
+                <div class="action-button">
+                    <% if(!isLogin) {%>
+                        <a class="btn btn-primary" href="/auth">Sign In</a>
+                        <a class="btn btn-outline-primary" href="/auth/register">Sign up</a>
+                        <%}else{%>
+                            <a class="btn btn-outline-primary" href="/auth/logout">Logout</a>
+                            <%}%>
                 </div>
             </div>
         </div>
+    </nav>
+    <div class="bg-img overlay" style="background-image: url('https://themewagon.github.io/soccer/images/bg_3.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="alert-group">
+                    <% if(success_msg!='' ){%>
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <%= success_msg %>
+                        </div>
+                        <% } %>
+                            <% if(error_msg!='' ){%>
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <%= error_msg %>
+                                </div>
+                                <% } %>
+                                    <% if(error!='' ){%>
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            <%= error %>
+                                        </div>
+                                        <% } %>
+                </div>
+                <div class="col-lg-5 ml-auto">
+                    <h1 class="text-white">World Cup Event</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

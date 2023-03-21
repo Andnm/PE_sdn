@@ -27,6 +27,7 @@ class nationController {
                 checkAdmin: true,
                 message: "",
                 authMessage: "",
+                isLogin: true,
                 currentPage: page,
                 pages: Math.ceil(count / perPage),
               });
@@ -46,6 +47,7 @@ class nationController {
                 message: "",
                 authMessage: "",
                 currentPage: page,
+                isLogin: true,
                 pages: Math.ceil(count / perPage),
               });
             });
@@ -63,6 +65,7 @@ class nationController {
               nation: nation,
               checkAdmin: false,
               message: "",
+              isLogin: false,
               authMessage: "",
               currentPage: page,
               pages: Math.ceil(count / perPage),
@@ -89,6 +92,7 @@ class nationController {
               nation: nation,
               message: errMessage,
               checkAdmin: true,
+              isLogin: true,
             });
           });
         });
@@ -108,6 +112,7 @@ class nationController {
             title: "The list of Nations",
             nation: nation,
             message: "",
+            isLogin: true,
           });
         })
         .catch(next);
@@ -130,6 +135,8 @@ class nationController {
               title: "The list of Nations",
               nation: nation,
               message: errMessage,
+              isLogin: true,
+
             });
           });
         });

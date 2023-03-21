@@ -21,16 +21,10 @@ let isCaptain = [
 ];
 
 let positionList = [
-  { id: "1", name: "GK" },
-  { id: "2", name: "RB" },
-  { id: "3", name: "CB" },
-  { id: "4", name: "LB" },
-  { id: "5", name: "CDM" },
-  { id: "6", name: "CM" },
-  { id: "7", name: "CAM" },
-  { id: "8", name: "RW" },
-  { id: "9", name: "LW" },
-  { id: "10", name: "ST" },
+  { id: "1", name: "Goalkeeper" },
+  { id: "2", name: "Defenders" },
+  { id: "3", name: "Midfielders " },
+  { id: "4", name: "Forwards" },
 ];
 
 const errMessage = "Player name already exist!";
@@ -70,6 +64,7 @@ class playerController {
                 positions: positionList,
                 nations: nationList,
                 currentPage: page,
+                isLogin: true,
                 pages: Math.ceil(count / perPage),
               });
             });
@@ -90,6 +85,7 @@ class playerController {
                 checkAdmin: false,
                 positions: positionList,
                 nations: nationList,
+                isLogin: true,
                 currentPage: page,
                 pages: Math.ceil(count / perPage),
               });
@@ -112,6 +108,7 @@ class playerController {
               checkAdmin: false,
               positions: positionList,
               nations: nationList,
+              isLogin: false,
               currentPage: page,
               pages: Math.ceil(count / perPage),
             });
@@ -153,6 +150,7 @@ class playerController {
                   checkAdmin: true,
                   nations: nationList,
                   positions: positionList,
+                  isLogin: true,
                 });
               })
               .catch(next);
@@ -188,6 +186,7 @@ class playerController {
             message: "",
             nations: nationList,
             positions: positionList,
+            isLogin: true,
           });
         })
         .catch(next);
@@ -248,16 +247,31 @@ class playerController {
   }
 
   details(req, res, next) {
+    var token = req.cookies.accessToken;
     const playerID = req.params.playerID;
-    Player.findById(playerID)
-      .then((player) => {
-        console.log(player);
-        res.render("detailOfPlayer", {
-          title: `Details of ${player.name}`,
-          player: player,
-        });
-      })
-      .catch(next);
+    if (token) {
+      Player.findById(playerID)
+        .then((player) => {
+          console.log(player);
+          res.render("detailOfPlayer", {
+            title: `Details of ${player.name}`,
+            player: player,
+            isLogin: true,
+          });
+        })
+        .catch(next);
+    } else {
+      Player.findById(playerID)
+        .then((player) => {
+          console.log(player);
+          res.render("detailOfPlayer", {
+            title: `Details of ${player.name}`,
+            player: player,
+            isLogin: false,
+          });
+        })
+        .catch(next);
+    }
   }
 
   async liveSearch(req, res, next) {
