@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('include/headerImport.ejs')%>
+        <link rel="stylesheet" href="/stylesheets/player.css" type="text/css">
+        <title>
+            <%=title%>
+        </title>
+</head>
+
+<body>
+    <%- include('include/navbar.ejs')%>
+        <div class="bg-img overlay"
+            style="background-image: url('https://themewagon.github.io/soccer/images/bg_3.jpg');">
+            <div class="container">
+                <div class="back">
+                    <a href="/auth/account" class="btn btn-success mt-2""><i class=" fa-solid fa-chevron-left"></i></a>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <table class="table">
+                            <tbody>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Year of birth</th>
+                                        <th scope="col">Is Admin</th>
+                                    </tr>
+                                </thead>
+                                <% user.forEach(function(user){%>
+
+                                    <tr>
+                                        <td>
+                                            <%= user.username %>
+                                        </td>
+                                        <td>
+                                            <%= user.name %>
+                                        </td>
+                                        <td>
+                                            <%= user.yob %>
+                                        </td>
+                                        <td>
+                                            <%=JSON.stringify(user.isAdmin)===JSON.stringify(true)? 'Yes' : 'No' %>
+                                        </td>
+                                    </tr>
+                                    <%})%>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-5"></div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

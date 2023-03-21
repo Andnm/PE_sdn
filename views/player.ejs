@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('include/headerImport.ejs')%>
+        <link rel="stylesheet" href="/stylesheets/player.css" type="text/css">
+        <title>
+            <%=title%>
+        </title>
+</head>
+
+<body>
+    <%- include('include/navbar.ejs')%>
+        <div class="bg-img overlay"
+            style="background-image: url('https://themewagon.github.io/soccer/images/bg_3.jpg');">
+            <div class="container">
+                <div class="content-header">
+                    <div class="content-header-search">
+                        <div class="search pt-4">
+                            <!-- <form action="/players" method="post"> -->
+                            <input type="text" placeholder="Search..." id="searchQuery" name="searchQuery"
+                                onkeyup="showResults(this.value)" onblur="onblurFunction()"
+                                onfocus="showResults(this.value)">
+                            <div id="searchResults" class="hide">This</div>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                    <div class="content-header-filter">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                aria-expanded="false">Nation</button>
+                            <ul class="dropdown-menu filter" aria-labelledby="dropdownMenuClickableInside">
+                                <!-- <form action="/players" method="post"> -->
+                                <% for(let nation of nations){ %>
+                                    <li><input class="form-check-input" type="checkbox" name="nation"
+                                            value="<%=nation._id%>" id="checkboxFilter">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            <%=nation.name%>
+                                        </label>
+                                    </li>
+                                    <% } %>
+                                        <!-- </form> -->
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                aria-expanded="false">Club</button>
+                            <ul class="dropdown-menu filter" aria-labelledby="dropdownMenuClickableInside">
+                                <% for(let club of clubList){ %>
+                                    <li><input class="form-check-input" type="checkbox" name="club"
+                                            value="<%=club.name%>" id="checkboxNation">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            <%=club.name%>
+                                        </label>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                aria-expanded="false">Position</button>
+                            <ul class="dropdown-menu filter" aria-labelledby="dropdownMenuClickableInside">
+                                <% for(let position of positions){ %>
+                                    <li><input class="form-check-input" type="checkbox" name="position"
+                                            value="<%=position.name%>" id="checkboxNation">
+                                        <label class="form-check-label" for="flexCheckChecked">
+                                            <%=position.name%>
+                                        </label>
+                                    </li>
+                                    <% } %>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                aria-expanded="false">Captain</button>
+                            <ul class="dropdown-menu filter" aria-labelledby="dropdownMenuClickableInside">
+                                <li><input class="form-check-input" type="checkbox" name="isCaptain" value="Captain"
+                                        id="checkboxNation">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Captain
+                                    </label>
+                                </li>
+                                <li><input class="form-check-input" type="checkbox" name="isCaptain" value="Not Captain"
+                                        id="checkboxNation">
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        Not Captain
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside"
+                                data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                aria-expanded="false">Goals</button>
+                            <ul class="dropdown-menu filter" aria-labelledby="dropdownMenuClickableInside">
+                                <li>
+                                    <div class="form-group">
+                                        <label for="formControlRange">Goals range</label>
+                                        <input type="range" class="form-control-range" id="formControlRange"
+                                            onInput="$('#rangeval').html($(this).val())" min="0" max="300">
+                                        <span id="rangeval">150</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <% if(success_msg!='' ){%>
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <%= success_msg %>
+                        </div>
+                        <% } %>
+                            <% if(error_msg!='' ){%>
+                                <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <%= error_msg %>
+                                </div>
+                                <% } %>
+                                    <% if(error!='' ){%>
+                                        <div class="alert alert-danger alert-dismissible" role="alert">
+                                            <%= error %>
+                                        </div>
+                                        <% } %>
+                                            <div id="tableItem" class="col-lg-6 table-wrapper-scroll-y scroll-table">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Image</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Nation</th>
+                                                                <th scope="col">Club</th>
+                                                                <th scope="col">Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <% players.forEach(function(player){%>
+                                                            <tr>
+                                                                <th scope="row"><img class="rounded"
+                                                                        src='<%=player.image%>' />
+                                                                </th>
+                                                                <td>
+                                                                    <%= player.name %>
+                                                                </td>
+                                                                <td>
+                                                                    <% if(player.nation){%>
+                                                                        <img src="<%=player.nation.image%>" alt=""
+                                                                            class="player-nation">
+                                                                        <%}%>
+                                                                </td>
+                                                                <td>
+                                                                    <%= player.club %>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="buttons">
+                                                                        <div class="dropdown">
+                                                                            <button class="btn btn-success"
+                                                                                type="button" id="dropdownMenuButton1"
+                                                                                data-bs-toggle="dropdown"
+                                                                                aria-expanded="false">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    width="16" height="16"
+                                                                                    fill="currentColor"
+                                                                                    class="bi bi-three-dots"
+                                                                                    viewBox="0 0 16 16">
+                                                                                    <path
+                                                                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
+                                                                                </svg>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu"
+                                                                                aria-labelledby="dropdownMenuButton1">
+                                                                                <li class="btn detail-btn">
+                                                                                    <a
+                                                                                        href="/players/details/<%= player._id%>">Details</a>
+                                                                                </li>
+                                                                                <% if(checkAdmin){%>
+                                                                                    <li class="btn edit-btn">
+                                                                                        <a
+                                                                                            href="/players/edit/<%= player._id%>">Edit</a>
+                                                                                    </li>
+                                                                                    <li class="btn delete-btn">
+                                                                                        <a
+                                                                                            onclick="deleteFunction('<%=player._id%>')">Delete
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <% } %>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <%})%>
+                                                    </tbody>
+                                                </table>
+                                                <% if(pages> 0) { %>
+                                                    <nav class="mx-auto">
+                                                        <ul id="pagination" class="pagination"
+                                                            style="margin-top: 2rem; float:right">
+                                                            <% if(currentPage==1) { %>
+                                                                <li class="page-item disabled">
+                                                                    <a class="page-link" href="/players/1">First</a>
+                                                                </li>
+                                                                <% } else { %>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="/players/1">First</a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% var i=(Number(currentPage)> 3 ?
+                                                                            Number(currentPage) -
+                                                                            2 : 1) %>
+                                                                            <% if(i !==1) { %>
+                                                                                <li class="page-item disabled">
+                                                                                    <a class="page-link"
+                                                                                        href="#">...</a>
+                                                                                </li>
+                                                                                <% } %>
+                                                                                    <% for(; i <=(Number(currentPage) +
+                                                                                        2) && i <=pages; i++) { %>
+                                                                                        <% if(i==currentPage) { %>
+                                                                                            <li
+                                                                                                class="page-item active">
+                                                                                                <a class="page-link"
+                                                                                                    href="/players/<%= i %>">
+                                                                                                    <%= i %>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                            <% } else { %>
+                                                                                                <li class="page-item">
+                                                                                                    <a class="page-link"
+                                                                                                        href="/players/<%= i %>">
+                                                                                                        <%= i %>
+                                                                                                    </a>
+                                                                                                </li>
+                                                                                                <% } %>
+                                                                                                    <% if
+                                                                                                        (i==Number(currentPage)
+                                                                                                        + 2 && i <
+                                                                                                        pages) { %>
+                                                                                                        <li
+                                                                                                            class="page-item disabled">
+                                                                                                            <a class="page-link"
+                                                                                                                href="#">...</a>
+                                                                                                        </li>
+                                                                                                        <% } %>
+                                                                                                            <% } %>
+                                                                                                                <% if(currentPage==pages)
+                                                                                                                    { %>
+                                                                                                                    <li
+                                                                                                                        class="page-item disabled">
+                                                                                                                        <a class="page-link"
+                                                                                                                            href="#">
+                                                                                                                            Last
+                                                                                                                        </a>
+                                                                                                                    </li>
+                                                                                                                    <% } else
+                                                                                                                        {
+                                                                                                                        %>
+                                                                                                                        <li
+                                                                                                                            class="page-item">
+                                                                                                                            <a class="page-link"
+                                                                                                                                href="/players/<%= pages %>">
+                                                                                                                                Last
+                                                                                                                            </a>
+                                                                                                                        </li>
+                                                                                                                        <% }
+                                                                                                                            %>
+                                                        </ul>
+                                                    </nav>
+                                                    <% } %>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <%= console.log('UI',checkAdmin)%>
+                                                    <% if(checkAdmin){%>
+                                                        <form method="post" class="box">
+                                                            <div class="mb-3">
+                                                                <label class="label">Name</label>
+                                                                <input type="text" class="form-control" name="name"
+                                                                    placeholder="Name" value="" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Image</label>
+                                                                <input class="form-control" type="text" name="image"
+                                                                    placeholder="URL of image" value="" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Nation</label>
+                                                                <select name="nation" class="form-select">
+                                                                    <% for(let nation of nations){ %>
+                                                                        <option value="<%=nation._id%>">
+                                                                            <%= nation.name%>
+                                                                        </option>
+                                                                        <% } %>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Club</label>
+                                                                <select name="club" class="form-select">
+                                                                    <% for(let club of clubList){ %>
+                                                                        <option value="<%=club.name%>">
+                                                                            <%= club.name%>
+                                                                        </option>
+                                                                        <% } %>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Position</label>
+                                                                <select name="position" class="form-select">
+                                                                    <% for(let position of positions){ %>
+                                                                        <option value="<%=position.name%>">
+                                                                            <%= position.name%>
+                                                                        </option>
+                                                                        <% } %>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Goals</label>
+                                                                <input class="form-control" type="number" name="goals"
+                                                                    placeholder="Goals" value="" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="label">Is Captain</label>
+                                                                <select name="isCaptain" class="form-select">
+                                                                    <% for(let captain of isCaptainList){ %>
+                                                                        <option value="<%=captain.name%>">
+                                                                            <%=JSON.stringify(captain.name)===JSON.stringify('Captain')? 'Yes'
+                                                                                :'No'%>
+                                                                        </option>
+                                                                        <% } %>
+                                                                </select>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-success">Create</button>
+                                                        </form>
+                                                        <% } %>
+                                            </div>
+                </div>
+            </div>
+        </div>
+</body>
+<script>
+    function deleteFunction(id) {
+        if (confirm("Do you want delete?")) {
+            window.location.href = `/players/delete/${id}`
+        }
+    }
+</script>
+<script src="/javascripts/search.js"></script>
+<script src="/javascripts/filter.js"></script>
+
+</html>
